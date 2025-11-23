@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎮 Вивчаємо німецькі дієслова та опис класу</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .mode-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .mode-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .card-wrapper {
+            perspective: 1000px;
+            height: 180px;
+            cursor: pointer;
+        }
+        
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background: white;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .card-emoji {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+        
+        .card-german {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .card-type {
+            font-size: 11px;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+        
+        .card-ukrainian {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .quiz-container {
+            text-align: center;
+        }
+        
+        .question-number {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-word {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 20px 0;
+        }
+        
+        .quiz-emoji {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .option-btn {
+            padding: 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f3f4f6;
+            transform: translateX(5px);
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .option-btn.correct {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+            animation: correctPulse 0.5s;
+        }
+        
+        .option-btn.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .fill-blank-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .classroom-image {
+            font-size: 80px;
+            text-align: center;
+        }
+        
+        .sentence {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .blank {
+            display: inline-block;
+            min-width: 120px;
+            padding: 8px 15px;
+            border-bottom: 3px dashed #667eea;
+            color: #667eea;
+            font-weight: bold;
+            margin: 0 5px;
+            background: #f9fafb;
+            border-radius: 5px;
+        }
+        
+        .blank.filled {
+            border-bottom: 3px solid #10b981;
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .blank.active {
+            background: #fef3c7;
+            border-bottom: 3px solid #f59e0b;
+        }
+        
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .word-btn {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .word-btn:hover:not(.used) {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .word-btn.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #e5e7eb;
+            border-color: #9ca3af;
+        }
+        
+        .check-btn {
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .check-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result-message.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .result-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .verb-quiz-container {
+            text-align: center;
+        }
+        
+        .verb-prompt {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+        
+        .verb-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .pronoun-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 15px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+        
+        .achievement {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .instruction {
+            background: #fef3c7;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Вивчаємо німецькі дієслова та опис класу</h1>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="totalScore">0</div>
+                    <div class="stat-label">⭐ Бали</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="correctAnswers">0</div>
+                    <div class="stat-label">✅ Правильно</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="level">1</div>
+                    <div class="stat-label">🏆 Рівень</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            
+            <div class="mode-buttons">
+                <button class="mode-btn active" data-mode="cards">📚 Картки</button>
+                <button class="mode-btn" data-mode="translate">🎯 Переклад</button>
+                <button class="mode-btn" data-mode="fill">📝 Опис класу</button>
+                <button class="mode-btn" data-mode="verbs">🔄 Дієвідміни</button>
+            </div>
+        </div>
+
+        <div id="cardsMode" class="game-container">
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+
+        <div id="translateMode" class="game-container hidden">
+            <div class="quiz-container">
+                <div class="question-number" id="questionNumber">Питання 1/10</div>
+                <div class="quiz-emoji" id="quizEmoji">📚</div>
+                <div class="quiz-word" id="quizWord">das Buch</div>
+                <div class="quiz-options" id="quizOptions"></div>
+            </div>
+        </div>
+
+        <div id="fillMode" class="game-container hidden">
+            <div class="fill-blank-container">
+                <h2 style="text-align: center; margin-bottom: 15px; color: #667eea;">Was ist das? (Що це таке?)</h2>
+                <div class="instruction">
+                    💡 Натискай на слова знизу, вони автоматично заповнять пропуски
+                </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="classroom-image" id="classroomImage">🏫</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #667eea; margin-top: 10px;" id="itemName"></div>
+                </div>
+                <div class="sentence" id="sentenceDisplay"></div>
+                <div class="word-bank" id="wordBank"></div>
+                <div style="text-align: center; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    <button class="check-btn" id="checkBtn">Перевірити</button>
+                    <button class="check-btn hidden" id="showAnswerBtn" style="background: #f59e0b;">💡 Показати відповідь</button>
+                    <button class="check-btn hidden" id="retryBtn" style="background: #f59e0b;">🔄 Ще раз</button>
+                    <button class="check-btn hidden" id="nextSentenceBtn" style="background: #10b981;">➡️ Наступне</button>
+                </div>
+                <div id="fillResult" class="hidden"></div>
+            </div>
+        </div>
+
+        <div id="verbsMode" class="game-container hidden">
+            <div class="verb-quiz-container">
+                <div class="question-number" id="verbQuestionNumber">Питання 1/10</div>
+                <div class="verb-prompt">Обери правильну форму дієслова:</div>
+                <div class="verb-display" id="verbDisplay">laufen</div>
+                <div class="pronoun-display" id="pronounDisplay">ich</div>
+                <div class="quiz-options" id="verbOptions"></div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="resetBtn">🔄 Почати заново</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { german: 'laufen', ukrainian: 'бігти, йти', emoji: '🏃', type: 'дієслово', article: '' },
+            { german: 'links', ukrainian: 'ліворуч', emoji: '⬅️', type: 'прислівник', article: '' },
+            { german: 'rechts', ukrainian: 'праворуч', emoji: '➡️', type: 'прислівник', article: '' },
+            { german: 'das Computerspiel', ukrainian: 'комп\'ютерна гра', emoji: '🎮', type: 'іменник', article: 'das' },
+            { german: 'sehen', ukrainian: 'дивитись, бачити', emoji: '👀', type: 'дієслово', article: '' },
+            { german: 'die Serie', ukrainian: 'серіал', emoji: '📺', type: 'іменник', article: 'die' },
+            { german: 'wir', ukrainian: 'ми', emoji: '👥', type: 'займенник', article: '' },
+            { german: 'ihr', ukrainian: 'ви', emoji: '👫', type: 'займенник', article: '' },
+            { german: 'sie', ukrainian: 'вони', emoji: '👨‍👩‍👧‍👦', type: 'займенник', article: '' },
+            { german: 'legen', ukrainian: 'класти', emoji: '📥', type: 'дієслово', article: '' },
+            { german: 'das Paar', ukrainian: 'пара', emoji: '👫', type: 'іменник', article: 'das' },
+            { german: 'ziehen', ukrainian: 'тягнути', emoji: '🎣', type: 'дієслово', article: '' },
+            { german: 'erzählen', ukrainian: 'розповідати', emoji: '💬', type: 'дієслово', article: '' },
+            { german: 'der Akzent', ukrainian: 'акцент', emoji: '🗣️', type: 'іменник', article: 'der' },
+            { german: 'meistens', ukrainian: 'найчастіше', emoji: '🔄', type: 'прислівник', article: '' },
+            { german: 'die Silbe', ukrainian: 'склад', emoji: '🔤', type: 'іменник', article: 'die' },
+            { german: 'kurz', ukrainian: 'короткий', emoji: '📏', type: 'прикметник', article: '' },
+            { german: 'lang', ukrainian: 'довгий', emoji: '📐', type: 'прикметник', article: '' },
+        ];
+
+        const classroomItems = [
+            { german: 'Klasse', ukrainian: 'клас', emoji: '👨‍🎓', article: 'die', adjectives: ['groß', 'klein'] },
+            { german: 'Lampe', ukrainian: 'лампа', emoji: '💡', article: 'die', adjectives: ['gelb', 'klein', 'weiß'] },
+            { german: 'Wand', ukrainian: 'стіна', emoji: '⬜', article: 'die', adjectives: ['weiß', 'groß', 'grün'] },
+            { german: 'Tafel', ukrainian: 'дошка', emoji: '⬛', article: 'die', adjectives: ['grün', 'groß', 'schwarz'] },
+            { german: 'Tür', ukrainian: 'двері', emoji: '🚪', article: 'die', adjectives: ['braun', 'groß', 'weiß'] },
+            { german: 'Fenster', ukrainian: 'вікно', emoji: '🔲', article: 'das', adjectives: ['weiß', 'groß', 'klein'] },
+            { german: 'Tisch', ukrainian: 'стіл', emoji: '◼️', article: 'der', adjectives: ['braun', 'groß', 'klein'] },
+            { german: 'Stuhl', ukrainian: 'стілець', emoji: '🪑', article: 'der', adjectives: ['blau', 'klein', 'braun'] },
+        ];
+
+        const verbConjugations = {
+            'laufen': {
+                'ich': 'laufe',
+                'du': 'läufst',
+                'er/sie/es': 'läuft',
+                'wir': 'laufen',
+                'ihr': 'lauft',
+                'sie/Sie': 'laufen'
+            },
+            'sehen': {
+                'ich': 'sehe',
+                'du': 'siehst',
+                'er/sie/es': 'sieht',
+                'wir': 'sehen',
+                'ihr': 'seht',
+                'sie/Sie': 'sehen'
+            }
+        };
+
+        let totalScore = 0;
+        let correctAnswers = 0;
+        let currentLevel = 1;
+        let currentMode = 'cards';
+        let currentQuestion = 0;
+        let currentQuizWord = null;
+        let currentSentence = null;
+        let blanksData = [];
+        let currentBlankIndex = 0;
+        let usedWords = [];
+        let usedVerbQuestions = [];
+
+        function init() {
+            initCards();
+            attachModeListeners();
+            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            document.getElementById('checkBtn').addEventListener('click', checkFillBlanks);
+            document.getElementById('showAnswerBtn').addEventListener('click', showAnswer);
+            document.getElementById('retryBtn').addEventListener('click', retryFillBlanks);
+            document.getElementById('nextSentenceBtn').addEventListener('click', startFillBlanks);
+        }
+
+        function initCards() {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+            
+            vocabulary.forEach((word, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'card-wrapper';
+                
+                let borderColor = '#9ca3af';
+                if (word.article === 'der') borderColor = '#3b82f6';
+                if (word.article === 'die') borderColor = '#ef4444';
+                if (word.article === 'das') borderColor = '#10b981';
+                
+                wrapper.innerHTML = `
+                    <div class="card" data-index="${index}">
+                        <div class="card-face card-front" style="border: 3px solid ${borderColor};">
+                            <div class="card-emoji">${word.emoji}</div>
+                            <div class="card-german" style="color: ${borderColor};">${word.german}</div>
+                            <div class="card-type">${word.type}</div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="card-emoji">${word.emoji}</div>
+                            <div class="card-ukrainian">${word.ukrainian}</div>
+                        </div>
+                    </div>
+                `;
+                
+                wrapper.addEventListener('click', function() {
+                    this.querySelector('.card').classList.toggle('flipped');
+                });
+                
+                grid.appendChild(wrapper);
+            });
+        }
+
+        function attachModeListeners() {
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mode = this.dataset.mode;
+                    switchMode(mode, this);
+                });
+            });
+        }
+
+        function switchMode(mode, button) {
+            currentMode = mode;
+            
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            document.getElementById('cardsMode').classList.add('hidden');
+            document.getElementById('translateMode').classList.add('hidden');
+            document.getElementById('fillMode').classList.add('hidden');
+            document.getElementById('verbsMode').classList.add('hidden');
+            
+            if (mode === 'cards') {
+                document.getElementById('cardsMode').classList.remove('hidden');
+            } else if (mode === 'translate') {
+                document.getElementById('translateMode').classList.remove('hidden');
+                currentQuestion = 0;
+                usedWords = [];
+                startTranslateQuiz();
+            } else if (mode === 'fill') {
+                document.getElementById('fillMode').classList.remove('hidden');
+                startFillBlanks();
+            } else if (mode === 'verbs') {
+                document.getElementById('verbsMode').classList.remove('hidden');
+                currentQuestion = 0;
+                usedVerbQuestions = [];
+                startVerbQuiz();
+            }
+        }
+
+        function startTranslateQuiz() {
+            if (currentQuestion >= 10) {
+                showAchievement('🎉 Тест завершено!');
+                usedWords = [];
+                setTimeout(() => {
+                    const cardsBtn = document.querySelector('[data-mode="cards"]');
+                    switchMode('cards', cardsBtn);
+                }, 2000);
+                return;
+            }
+
+            // Вибираємо слово яке ще не використовувалось
+            let availableWords = vocabulary.filter(w => !usedWords.includes(w.german));
+            
+            // Якщо всі слова використані, починаємо заново
+            if (availableWords.length === 0) {
+                usedWords = [];
+                availableWords = vocabulary;
+            }
+            
+            currentQuizWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+            usedWords.push(currentQuizWord.german);
+            
+            document.getElementById('questionNumber').textContent = `Питання ${currentQuestion + 1}/10`;
+            document.getElementById('quizEmoji').textContent = currentQuizWord.emoji;
+            document.getElementById('quizWord').textContent = currentQuizWord.german;
+            
+            const correctAnswer = currentQuizWord.ukrainian;
+            const wrongAnswers = vocabulary
+                .filter(w => w.ukrainian !== correctAnswer)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 2)
+                .map(w => w.ukrainian);
+            
+            const allOptions = [correctAnswer, ...wrongAnswers].sort(() => 0.5 - Math.random());
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            allOptions.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.addEventListener('click', () => checkTranslateAnswer(option, correctAnswer, btn));
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkTranslateAnswer(selected, correct, btn) {
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.disabled = true);
+            
+            if (selected === correct) {
+                btn.classList.add('correct');
+                updateScore(10);
+                setTimeout(() => {
+                    currentQuestion++;
+                    startTranslateQuiz();
+                }, 1000);
+            } else {
+                btn.classList.add('incorrect');
+                allBtns.forEach(b => {
+                    if (b.textContent === correct) {
+                        b.classList.add('correct');
+                    }
+                });
+                setTimeout(() => {
+                    currentQuestion++;
+                    startTranslateQuiz();
+                }, 1500);
+            }
+        }
+
+        function startFillBlanks() {
+            const item = classroomItems[Math.floor(Math.random() * classroomItems.length)];
+            const selectedAdjective = item.adjectives[Math.floor(Math.random() * item.adjectives.length)];
+            
+            currentSentence = {
+                item: item,
+                adjective: selectedAdjective
+            };
+            currentBlankIndex = 0;
+            
+            document.getElementById('classroomImage').textContent = item.emoji;
+            document.getElementById('itemName').textContent = `${item.article} ${item.german}`;
+            
+            const pronoun = item.article === 'der' ? 'er' : (item.article === 'die' ? 'sie' : 'es');
+            const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+            
+            blanksData = [
+                { answer: item.german, type: 'noun' },
+                { answer: selectedAdjective, type: 'adjective' }
+            ];
+            
+            const sentence = `Das ist <span class="blank" data-index="0">____</span>. ${pronounCap} ist <span class="blank" data-index="1">____</span>.`;
+            
+            document.getElementById('sentenceDisplay').innerHTML = sentence;
+            
+            const allNouns = classroomItems.map(i => i.german);
+            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz'];
+            
+            const words = [
+                item.german,
+                selectedAdjective,
+                ...allNouns.filter(n => n !== item.german).sort(() => 0.5 - Math.random()).slice(0, 2),
+                ...allAdjectives.filter(c => c !== selectedAdjective).sort(() => 0.5 - Math.random()).slice(0, 2)
+            ].sort(() => 0.5 - Math.random());
+            
+            const bankContainer = document.getElementById('wordBank');
+            bankContainer.innerHTML = '';
+            
+            words.forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = 'word-btn';
+                btn.textContent = word;
+                btn.addEventListener('click', () => selectWord(word, btn));
+                bankContainer.appendChild(btn);
+            });
+            
+            document.querySelectorAll('.blank')[0].classList.add('active');
+            document.getElementById('fillResult').classList.add('hidden');
+            document.getElementById('checkBtn').disabled = false;
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('showAnswerBtn').classList.remove('hidden');
+            document.getElementById('retryBtn').classList.add('hidden');
+            document.getElementById('nextSentenceBtn').classList.add('hidden');
+        }
+
+        function retryFillBlanks() {
+            if (!currentSentence) return;
+            
+            currentBlankIndex = 0;
+            
+            const item = currentSentence.item;
+            const selectedAdjective = currentSentence.adjective;
+            
+            document.getElementById('classroomImage').textContent = item.emoji;
+            document.getElementById('itemName').textContent = `${item.article} ${item.german}`;
+            
+            const pronoun = item.article === 'der' ? 'er' : (item.article === 'die' ? 'sie' : 'es');
+            const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+            
+            blanksData = [
+                { answer: item.german, type: 'noun' },
+                { answer: selectedAdjective, type: 'adjective' }
+            ];
+            
+            const sentence = `Das ist <span class="blank" data-index="0">____</span>. ${pronounCap} ist <span class="blank" data-index="1">____</span>.`;
+            
+            document.getElementById('sentenceDisplay').innerHTML = sentence;
+            
+            const allNouns = classroomItems.map(i => i.german);
+            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz'];
+            
+            const words = [
+                item.german,
+                selectedAdjective,
+                ...allNouns.filter(n => n !== item.german).sort(() => 0.5 - Math.random()).slice(0, 2),
+                ...allAdjectives.filter(c => c !== selectedAdjective).sort(() => 0.5 - Math.random()).slice(0, 2)
+            ].sort(() => 0.5 - Math.random());
+            
+            const bankContainer = document.getElementById('wordBank');
+            bankContainer.innerHTML = '';
+            
+            words.forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = 'word-btn';
+                btn.textContent = word;
+                btn.addEventListener('click', () => selectWord(word, btn));
+                bankContainer.appendChild(btn);
+            });
+            
+            document.querySelectorAll('.blank')[0].classList.add('active');
+            document.getElementById('fillResult').classList.add('hidden');
+            document.getElementById('checkBtn').disabled = false;
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('showAnswerBtn').classList.remove('hidden');
+            document.getElementById('retryBtn').classList.add('hidden');
+            document.getElementById('nextSentenceBtn').classList.add('hidden');
+        }
+
+        function showAnswer() {
+            if (!currentSentence) return;
+            
+            const blanks = document.querySelectorAll('.blank');
+            blanks.forEach((blank, index) => {
+                blank.textContent = blanksData[index].answer;
+                blank.classList.add('filled');
+                blank.classList.remove('active');
+            });
+            
+            const allBtns = document.querySelectorAll('.word-btn');
+            allBtns.forEach(btn => {
+                if (btn.textContent === blanksData[0].answer || btn.textContent === blanksData[1].answer) {
+                    btn.classList.add('used');
+                }
+            });
+            
+            const resultDiv = document.getElementById('fillResult');
+            resultDiv.className = 'result-message';
+            resultDiv.style.background = '#fef3c7';
+            resultDiv.style.color = '#92400e';
+            resultDiv.textContent = `💡 Відповідь: Das ist ${blanksData[0].answer}. ${currentSentence.item.article === 'der' ? 'Er' : (currentSentence.item.article === 'die' ? 'Sie' : 'Es')} ist ${blanksData[1].answer}.`;
+            resultDiv.classList.remove('hidden');
+            
+            document.getElementById('checkBtn').classList.add('hidden');
+            document.getElementById('showAnswerBtn').classList.add('hidden');
+            document.getElementById('retryBtn').classList.add('hidden');
+            document.getElementById('nextSentenceBtn').classList.remove('hidden');
+        }
+
+        function selectWord(word, btn) {
+            if (btn.classList.contains('used')) return;
+            
+            const blanks = document.querySelectorAll('.blank');
+            const currentBlank = blanks[currentBlankIndex];
+            
+            if (!currentBlank || currentBlank.classList.contains('filled')) return;
+            
+            currentBlank.textContent = word;
+            currentBlank.classList.add('filled');
+            currentBlank.classList.remove('active');
+            btn.classList.add('used');
+            
+            currentBlankIndex++;
+            if (currentBlankIndex < blanks.length) {
+                blanks[currentBlankIndex].classList.add('active');
+            }
+        }
+
+        function checkFillBlanks() {
+            const blanks = document.querySelectorAll('.blank');
+            let allCorrect = true;
+            
+            blanks.forEach((blank, index) => {
+                const answer = blanksData[index].answer;
+                const userAnswer = blank.textContent.trim();
+                
+                if (userAnswer !== answer) {
+                    allCorrect = false;
+                }
+            });
+            
+            const resultDiv = document.getElementById('fillResult');
+            resultDiv.classList.remove('hidden');
+            
+            if (allCorrect) {
+                resultDiv.className = 'result-message success';
+                resultDiv.textContent = '✅ Відмінно! Всі слова правильні!';
+                updateScore(20);
+                document.getElementById('showAnswerBtn').classList.add('hidden');
+                document.getElementById('retryBtn').classList.add('hidden');
+                document.getElementById('nextSentenceBtn').classList.remove('hidden');
+            } else {
+                resultDiv.className = 'result-message error';
+                resultDiv.textContent = '❌ Є помилки. Спробуй ще раз!';
+                document.getElementById('showAnswerBtn').classList.remove('hidden');
+                document.getElementById('retryBtn').classList.remove('hidden');
+                document.getElementById('nextSentenceBtn').classList.remove('hidden');
+            }
+            
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').classList.add('hidden');
+        }
+
+        function startVerbQuiz() {
+            if (currentQuestion >= 10) {
+                showAchievement('🎉 Дієвідміни завершено!');
+                usedVerbQuestions = [];
+                setTimeout(() => {
+                    const cardsBtn = document.querySelector('[data-mode="cards"]');
+                    switchMode('cards', cardsBtn);
+                }, 2000);
+                return;
+            }
+
+            const verbs = Object.keys(verbConjugations);
+            
+            // Генеруємо всі можливі комбінації дієслово+займенник
+            const allCombinations = [];
+            verbs.forEach(verb => {
+                Object.keys(verbConjugations[verb]).forEach(pronoun => {
+                    allCombinations.push({ verb, pronoun });
+                });
+            });
+            
+            // Фільтруємо ті що вже використовувались
+            let availableCombinations = allCombinations.filter(combo => {
+                const key = `${combo.verb}-${combo.pronoun}`;
+                return !usedVerbQuestions.includes(key);
+            });
+            
+            // Якщо всі використані, починаємо заново
+            if (availableCombinations.length === 0) {
+                usedVerbQuestions = [];
+                availableCombinations = allCombinations;
+            }
+            
+            // Вибираємо випадкову комбінацію
+            const selected = availableCombinations[Math.floor(Math.random() * availableCombinations.length)];
+            const verb = selected.verb;
+            const pronoun = selected.pronoun;
+            
+            usedVerbQuestions.push(`${verb}-${pronoun}`);
+            
+            const correctForm = verbConjugations[verb][pronoun];
+            
+            const allForms = Object.values(verbConjugations[verb]);
+            const wrongForms = allForms.filter(f => f !== correctForm);
+            const selectedWrong = wrongForms.sort(() => 0.5 - Math.random()).slice(0, 2);
+            
+            const options = [correctForm, ...selectedWrong].sort(() => 0.5 - Math.random());
+            
+            document.getElementById('verbQuestionNumber').textContent = `Питання ${currentQuestion + 1}/10`;
+            document.getElementById('verbDisplay').textContent = verb;
+            document.getElementById('pronounDisplay').textContent = pronoun;
+            
+            const optionsContainer = document.getElementById('verbOptions');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.addEventListener('click', () => checkVerbAnswer(option, correctForm, btn));
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkVerbAnswer(selected, correct, btn) {
+            const allBtns = document.querySelectorAll('#verbOptions .option-btn');
+            allBtns.forEach(b => b.disabled = true);
+            
+            if (selected === correct) {
+                btn.classList.add('correct');
+                updateScore(10);
+                setTimeout(() => {
+                    currentQuestion++;
+                    startVerbQuiz();
+                }, 1000);
+            } else {
+                btn.classList.add('incorrect');
+                allBtns.forEach(b => {
+                    if (b.textContent === correct) {
+                        b.classList.add('correct');
+                    }
+                });
+                setTimeout(() => {
+                    currentQuestion++;
+                    startVerbQuiz();
+                }, 1500);
+            }
+        }
+
+        function updateScore(points) {
+            totalScore += points;
+            correctAnswers++;
+            
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('correctAnswers').textContent = correctAnswers;
+            
+            const newLevel = Math.floor(totalScore / 100) + 1;
+            if (newLevel > currentLevel) {
+                currentLevel = newLevel;
+                document.getElementById('level').textContent = currentLevel;
+                showAchievement(`🎉 Новий рівень ${currentLevel}!`);
+            }
+            
+            const progress = (totalScore % 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showAchievement(text) {
+            const achievement = document.createElement('div');
+            achievement.className = 'achievement';
+            achievement.textContent = text;
+            document.body.appendChild(achievement);
+            
+            setTimeout(() => {
+                achievement.remove();
+            }, 3000);
+        }
+
+        function resetGame() {
+            totalScore = 0;
+            correctAnswers = 0;
+            currentLevel = 1;
+            currentQuestion = 0;
+            usedWords = [];
+            usedVerbQuestions = [];
+            
+            document.getElementById('totalScore').textContent = '0';
+            document.getElementById('correctAnswers').textContent = '0';
+            document.getElementById('level').textContent = '1';
+            document.getElementById('progressBar').style.width = '0%';
+            
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => card.classList.remove('flipped'));
+            
+            if (currentMode === 'translate') {
+                startTranslateQuiz();
+            } else if (currentMode === 'fill') {
+                startFillBlanks();
+            } else if (currentMode === 'verbs') {
+                startVerbQuiz();
+            }
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
