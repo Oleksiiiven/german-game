@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎮 Вивчаємо німецькі дієслова та опис класу</title>
     <style>
+        .speaker-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        
+        .speaker-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .speaker-btn:active {
+            transform: scale(0.9);
+        }
+        
+        .card-german, .quiz-word, .verb-display, .pronoun-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -173,6 +198,11 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
         }
         
         .card-type {
@@ -204,6 +234,32 @@
             font-weight: bold;
             color: #1f2937;
             margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .verb-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .pronoun-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .quiz-emoji {
@@ -321,6 +377,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .word-btn:hover:not(.used) {
@@ -386,20 +445,6 @@
             font-size: 18px;
             color: #6b7280;
             margin-bottom: 20px;
-        }
-        
-        .verb-display {
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 20px 0;
-        }
-        
-        .pronoun-display {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1f2937;
-            margin: 15px 0;
         }
         
         .progress-bar {
@@ -484,7 +529,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎮 Вивчаємо німецькі дієслова та опис класу</h1>
+            <h1>🎮 Вивчаємо німецькі слова: Seite 22-27</h1>
+            <p style="text-align: center; color: #6b7280; font-size: 14px; margin-top: 5px;">
+                🔊 Натискай на динамік щоб почути вимову!
+            </p>
             
             <div class="stats">
                 <div class="stat-box">
@@ -530,7 +578,7 @@
             <div class="fill-blank-container">
                 <h2 style="text-align: center; margin-bottom: 15px; color: #667eea;">Was ist das? (Що це таке?)</h2>
                 <div class="instruction">
-                    💡 Натискай на слова знизу, вони автоматично заповнять пропуски
+                    💡 Натискай на слова знизу, щоб заповнити пропуски. Опиши предмет класу!
                 </div>
                 <div style="text-align: center; margin-bottom: 20px;">
                     <div class="classroom-image" id="classroomImage">🏫</div>
@@ -565,6 +613,7 @@
 
     <script>
         const vocabulary = [
+            // Seite 22-23 (старі)
             { german: 'laufen', ukrainian: 'бігти, йти', emoji: '🏃', type: 'дієслово', article: '' },
             { german: 'links', ukrainian: 'ліворуч', emoji: '⬅️', type: 'прислівник', article: '' },
             { german: 'rechts', ukrainian: 'праворуч', emoji: '➡️', type: 'прислівник', article: '' },
@@ -583,17 +632,69 @@
             { german: 'die Silbe', ukrainian: 'склад', emoji: '🔤', type: 'іменник', article: 'die' },
             { german: 'kurz', ukrainian: 'короткий', emoji: '📏', type: 'прикметник', article: '' },
             { german: 'lang', ukrainian: 'довгий', emoji: '📐', type: 'прикметник', article: '' },
+            
+            // Seite 24 (нові)
+            { german: 'das Klassenzimmer', ukrainian: 'класна кімната', emoji: '🏫', type: 'іменник', article: 'das' },
+            { german: 'neu', ukrainian: 'новий', emoji: '✨', type: 'прикметник', article: '' },
+            { german: 'Sie', ukrainian: 'Ви (ввічливо)', emoji: '🎩', type: 'займенник', article: '' },
+            
+            // Seite 25 (нові)
+            { german: 'die Schulsachen', ukrainian: 'шкільні речі', emoji: '🎒', type: 'іменник', article: 'die' },
+            { german: 'der Bikini', ukrainian: 'бікіні', emoji: '👙', type: 'іменник', article: 'der' },
+            { german: 'das Glas', ukrainian: 'склянка / скло', emoji: '🥛', type: 'іменник', article: 'das' },
+            { german: 'die Kartoffel', ukrainian: 'картопля', emoji: '🥔', type: 'іменник', article: 'die' },
+            { german: 'der Kuli', ukrainian: 'ручка (кулькова)', emoji: '🖊️', type: 'іменник', article: 'der' },
+            { german: 'der Stift', ukrainian: 'олівець', emoji: '✏️', type: 'іменник', article: 'der' },
+            { german: 'ordnen', ukrainian: 'впорядковувати', emoji: '📋', type: 'дієслово', article: '' },
+            { german: 'die Seite', ukrainian: 'сторінка', emoji: '📄', type: 'іменник', article: 'die' },
+            { german: 'das Regal', ukrainian: 'полиця', emoji: '📚', type: 'іменник', article: 'das' },
+            { german: 'der Schrank', ukrainian: 'шафа', emoji: '🗄️', type: 'іменник', article: 'der' },
+            { german: 'die Tasche', ukrainian: 'сумка', emoji: '👜', type: 'іменник', article: 'die' },
+            { german: 'immer', ukrainian: 'завжди', emoji: '♾️', type: 'прислівник', article: '' },
+            { german: 'zusammen', ukrainian: 'разом', emoji: '🤝', type: 'прислівник', article: '' },
+            
+            // Seite 26 (нові - дні тижня)
+            { german: 'der Tag', ukrainian: 'день', emoji: '📅', type: 'іменник', article: 'der' },
+            { german: 'der Chor', ukrainian: 'хор', emoji: '🎵', type: 'іменник', article: 'der' },
+            { german: 'die Pause', ukrainian: 'перерва', emoji: '⏸️', type: 'іменник', article: 'die' },
+            { german: 'freihaben', ukrainian: 'мати вихідний', emoji: '🏖️', type: 'дієслово', article: '' },
+            { german: 'beantworten', ukrainian: 'відповідати', emoji: '💬', type: 'дієслово', article: '' },
+            { german: 'morgen', ukrainian: 'завтра', emoji: '🌅', type: 'прислівник', article: '' },
+            { german: 'der Montag', ukrainian: 'понеділок', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Dienstag', ukrainian: 'вівторок', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Mittwoch', ukrainian: 'середа', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Donnerstag', ukrainian: 'четвер', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Freitag', ukrainian: 'п\'ятниця', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Samstag', ukrainian: 'субота', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'der Sonntag', ukrainian: 'неділя', emoji: '📆', type: 'іменник', article: 'der' },
+            { german: 'das Wochenende', ukrainian: 'вихідні', emoji: '🎉', type: 'іменник', article: 'das' },
+            
+            // Seite 27 (нові)
+            { german: 'cool', ukrainian: 'класно, круто', emoji: '😎', type: 'прикметник', article: '' },
+            { german: 'echt', ukrainian: 'справді', emoji: '❓', type: 'прислівник', article: '' },
+            { german: 'kein', ukrainian: 'жоден', emoji: '🚫', type: 'займенник', article: '' },
+            { german: 'die Bibliothek', ukrainian: 'бібліотека', emoji: '📚', type: 'іменник', article: 'die' },
+            { german: 'die Party', ukrainian: 'вечірка', emoji: '🎉', type: 'іменник', article: 'die' },
+            { german: 'die Emotion', ukrainian: 'емоція', emoji: '😊', type: 'іменник', article: 'die' },
+            { german: 'raten', ukrainian: 'вгадувати, радити', emoji: '🤔', type: 'дієслово', article: '' },
+            { german: 'der Rucksack', ukrainian: 'рюкзак', emoji: '🎒', type: 'іменник', article: 'der' },
+            { german: 'die Liste', ukrainian: 'список', emoji: '📝', type: 'іменник', article: 'die' },
+            { german: 'tauschen', ukrainian: 'обмінювати(ся)', emoji: '🔄', type: 'дієслово', article: '' },
         ];
 
         const classroomItems = [
-            { german: 'Klasse', ukrainian: 'клас', emoji: '👨‍🎓', article: 'die', adjectives: ['groß', 'klein'] },
-            { german: 'Lampe', ukrainian: 'лампа', emoji: '💡', article: 'die', adjectives: ['gelb', 'klein', 'weiß'] },
+            { german: 'Klassenzimmer', ukrainian: 'класна кімната', emoji: '🏫', article: 'das', adjectives: ['groß', 'klein', 'neu'] },
+            { german: 'Lampe', ukrainian: 'лампа', emoji: '💡', article: 'die', adjectives: ['gelb', 'klein', 'weiß', 'neu'] },
             { german: 'Wand', ukrainian: 'стіна', emoji: '⬜', article: 'die', adjectives: ['weiß', 'groß', 'grün'] },
             { german: 'Tafel', ukrainian: 'дошка', emoji: '⬛', article: 'die', adjectives: ['grün', 'groß', 'schwarz'] },
-            { german: 'Tür', ukrainian: 'двері', emoji: '🚪', article: 'die', adjectives: ['braun', 'groß', 'weiß'] },
+            { german: 'Tür', ukrainian: 'двері', emoji: '🚪', article: 'die', adjectives: ['braun', 'groß', 'weiß', 'neu'] },
             { german: 'Fenster', ukrainian: 'вікно', emoji: '🔲', article: 'das', adjectives: ['weiß', 'groß', 'klein'] },
-            { german: 'Tisch', ukrainian: 'стіл', emoji: '◼️', article: 'der', adjectives: ['braun', 'groß', 'klein'] },
-            { german: 'Stuhl', ukrainian: 'стілець', emoji: '🪑', article: 'der', adjectives: ['blau', 'klein', 'braun'] },
+            { german: 'Tisch', ukrainian: 'стіл', emoji: '◼️', article: 'der', adjectives: ['braun', 'groß', 'klein', 'neu'] },
+            { german: 'Stuhl', ukrainian: 'стілець', emoji: '🪑', article: 'der', adjectives: ['blau', 'klein', 'braun', 'neu'] },
+            { german: 'Regal', ukrainian: 'полиця', emoji: '📚', article: 'das', adjectives: ['groß', 'klein', 'braun'] },
+            { german: 'Schrank', ukrainian: 'шафа', emoji: '🗄️', article: 'der', adjectives: ['groß', 'braun', 'weiß'] },
+            { german: 'Tasche', ukrainian: 'сумка', emoji: '👜', article: 'die', adjectives: ['klein', 'rot', 'blau', 'neu'] },
+            { german: 'Rucksack', ukrainian: 'рюкзак', emoji: '🎒', article: 'der', adjectives: ['groß', 'klein', 'neu'] },
         ];
 
         const verbConjugations = {
@@ -612,6 +713,14 @@
                 'wir': 'sehen',
                 'ihr': 'seht',
                 'sie/Sie': 'sehen'
+            },
+            'raten': {
+                'ich': 'rate',
+                'du': 'rätst',
+                'er/sie/es': 'rät',
+                'wir': 'raten',
+                'ihr': 'ratet',
+                'sie/Sie': 'raten'
             }
         };
 
@@ -626,6 +735,33 @@
         let currentBlankIndex = 0;
         let usedWords = [];
         let usedVerbQuestions = [];
+
+        // Функція озвучення
+        function speakWord(text) {
+            // Видаляємо артиклі для озвучення
+            const cleanText = text.replace(/^(der|die|das)\s+/i, '');
+            
+            // Перевіряємо чи браузер підтримує Web Speech API
+            if ('speechSynthesis' in window) {
+                // Зупиняємо попереднє озвучення
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'de-DE'; // Німецька мова
+                utterance.rate = 0.8; // Трохи повільніше для кращого розуміння
+                utterance.pitch = 1;
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                // Фолбек - Google Translate TTS (якщо Web Speech API не працює)
+                const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=de&client=tw-ob&q=${encodeURIComponent(cleanText)}`);
+                audio.play().catch(err => console.log('Озвучення недоступне'));
+            }
+        }
+        
+        function createSpeakerButton(text) {
+            return `<button class="speaker-btn" onclick="speakWord('${text.replace(/'/g, "\\'")}'); event.stopPropagation();" title="Озвучити">🔊</button>`;
+        }
 
         function init() {
             initCards();
@@ -654,7 +790,10 @@
                     <div class="card" data-index="${index}">
                         <div class="card-face card-front" style="border: 3px solid ${borderColor};">
                             <div class="card-emoji">${word.emoji}</div>
-                            <div class="card-german" style="color: ${borderColor};">${word.german}</div>
+                            <div class="card-german" style="color: ${borderColor};">
+                                ${word.german}
+                                ${createSpeakerButton(word.german)}
+                            </div>
                             <div class="card-type">${word.type}</div>
                         </div>
                         <div class="card-face card-back">
@@ -664,8 +803,11 @@
                     </div>
                 `;
                 
-                wrapper.addEventListener('click', function() {
-                    this.querySelector('.card').classList.toggle('flipped');
+                wrapper.addEventListener('click', function(e) {
+                    // Не перевертаємо картку якщо натиснули на кнопку озвучення
+                    if (!e.target.classList.contains('speaker-btn')) {
+                        this.querySelector('.card').classList.toggle('flipped');
+                    }
                 });
                 
                 grid.appendChild(wrapper);
@@ -737,7 +879,13 @@
             
             document.getElementById('questionNumber').textContent = `Питання ${currentQuestion + 1}/10`;
             document.getElementById('quizEmoji').textContent = currentQuizWord.emoji;
-            document.getElementById('quizWord').textContent = currentQuizWord.german;
+            document.getElementById('quizWord').innerHTML = `
+                ${currentQuizWord.german}
+                ${createSpeakerButton(currentQuizWord.german)}
+            `;
+            
+            // Автоматично озвучуємо слово при появі
+            setTimeout(() => speakWord(currentQuizWord.german), 300);
             
             const correctAnswer = currentQuizWord.ukrainian;
             const wrongAnswers = vocabulary
@@ -796,7 +944,13 @@
             currentBlankIndex = 0;
             
             document.getElementById('classroomImage').textContent = item.emoji;
-            document.getElementById('itemName').textContent = `${item.article} ${item.german}`;
+            document.getElementById('itemName').innerHTML = `
+                ${item.article} ${item.german}
+                ${createSpeakerButton(item.article + ' ' + item.german)}
+            `;
+            
+            // Автоматично озвучуємо предмет
+            setTimeout(() => speakWord(item.article + ' ' + item.german), 300);
             
             const pronoun = item.article === 'der' ? 'er' : (item.article === 'die' ? 'sie' : 'es');
             const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
@@ -811,7 +965,7 @@
             document.getElementById('sentenceDisplay').innerHTML = sentence;
             
             const allNouns = classroomItems.map(i => i.german);
-            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz'];
+            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz', 'neu'];
             
             const words = [
                 item.german,
@@ -826,8 +980,11 @@
             words.forEach(word => {
                 const btn = document.createElement('button');
                 btn.className = 'word-btn';
-                btn.textContent = word;
-                btn.addEventListener('click', () => selectWord(word, btn));
+                btn.innerHTML = `${word} <span style="font-size: 14px;">🔊</span>`;
+                btn.addEventListener('click', () => {
+                    selectWord(word, btn);
+                    speakWord(word);
+                });
                 bankContainer.appendChild(btn);
             });
             
@@ -849,7 +1006,10 @@
             const selectedAdjective = currentSentence.adjective;
             
             document.getElementById('classroomImage').textContent = item.emoji;
-            document.getElementById('itemName').textContent = `${item.article} ${item.german}`;
+            document.getElementById('itemName').innerHTML = `
+                ${item.article} ${item.german}
+                ${createSpeakerButton(item.article + ' ' + item.german)}
+            `;
             
             const pronoun = item.article === 'der' ? 'er' : (item.article === 'die' ? 'sie' : 'es');
             const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
@@ -864,7 +1024,7 @@
             document.getElementById('sentenceDisplay').innerHTML = sentence;
             
             const allNouns = classroomItems.map(i => i.german);
-            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz'];
+            const allAdjectives = ['groß', 'klein', 'grün', 'blau', 'weiß', 'braun', 'gelb', 'rot', 'schwarz', 'neu'];
             
             const words = [
                 item.german,
@@ -879,8 +1039,11 @@
             words.forEach(word => {
                 const btn = document.createElement('button');
                 btn.className = 'word-btn';
-                btn.textContent = word;
-                btn.addEventListener('click', () => selectWord(word, btn));
+                btn.innerHTML = `${word} <span style="font-size: 14px;">🔊</span>`;
+                btn.addEventListener('click', () => {
+                    selectWord(word, btn);
+                    speakWord(word);
+                });
                 bankContainer.appendChild(btn);
             });
             
@@ -1026,8 +1189,20 @@
             const options = [correctForm, ...selectedWrong].sort(() => 0.5 - Math.random());
             
             document.getElementById('verbQuestionNumber').textContent = `Питання ${currentQuestion + 1}/10`;
-            document.getElementById('verbDisplay').textContent = verb;
-            document.getElementById('pronounDisplay').textContent = pronoun;
+            document.getElementById('verbDisplay').innerHTML = `
+                ${verb}
+                ${createSpeakerButton(verb)}
+            `;
+            document.getElementById('pronounDisplay').innerHTML = `
+                ${pronoun}
+                ${createSpeakerButton(pronoun)}
+            `;
+            
+            // Автоматично озвучуємо дієслово та займенник
+            setTimeout(() => {
+                speakWord(verb);
+                setTimeout(() => speakWord(pronoun), 800);
+            }, 300);
             
             const optionsContainer = document.getElementById('verbOptions');
             optionsContainer.innerHTML = '';
